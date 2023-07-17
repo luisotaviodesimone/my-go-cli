@@ -6,6 +6,7 @@ import (
 
 	htgotts "github.com/hegedustibor/htgo-tts"
 	"github.com/hegedustibor/htgo-tts/handlers"
+	"github.com/luisotaviodesimone/my-go-cli/internal/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +14,7 @@ func speak(text string, voice string) {
 	speech := htgotts.Speech{Folder: "audio", Language: voice, Handler: &handlers.Native{}}
 	speech.Speak(text)
 
-	currentDir, _ := os.Getwd()
+	currentDir := utils.GetCurrentExecutableDirPath()
 
 	dirPath := fmt.Sprintf("%s/%s", currentDir, "audio")
 	audioDir, _ := os.ReadDir(dirPath)
