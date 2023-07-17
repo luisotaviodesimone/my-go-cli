@@ -16,6 +16,9 @@ file/path/to/main --help
 file/path/to/main speak "my go cli" -v en
 ```
 
+### Notes
+- For the `git` command to work you have to have the `sensible-info.json` file set up and the executable file in the same directory
+
 ### To-Do
 
 - Commands
@@ -23,4 +26,3 @@ file/path/to/main speak "my go cli" -v en
   - Recursivily remove `node_module` from directory and children directories
   - Approve Pr with giphy api
   - Install node lts with ease
-  - Finish setting git user up

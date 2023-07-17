@@ -10,7 +10,7 @@ func main() {
 	rootCmd.AddCommand(cmds.Hello())
 	rootCmd.AddCommand(cmds.FolderSizeCmd())
 	rootCmd.AddCommand(cmds.RequestCpfCmd())
-	// rootCmd.AddCommand(cmds.SetGitUserCmd())
+	rootCmd.AddCommand(cmds.SetGitUserCmd())
 	rootCmd.AddCommand(cmds.Speak())
 
 	rootCmd.Execute()
