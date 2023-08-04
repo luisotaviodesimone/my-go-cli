@@ -59,7 +59,7 @@ func makeRequest(state string) (string, error) {
 	return string(clientResBody), nil
 }
 
-func RequestCpfCmd() *cobra.Command {
+func GetCpfCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "cpf",
 		Short: "retorna um cpf válido",

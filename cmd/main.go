@@ -9,7 +9,7 @@ func main() {
 	rootCmd := &cobra.Command{}
 	rootCmd.AddCommand(cmds.Hello())
 	rootCmd.AddCommand(cmds.FolderSizeCmd())
-	rootCmd.AddCommand(cmds.RequestCpfCmd())
+	rootCmd.AddCommand(cmds.GetCpfCmd())
 	rootCmd.AddCommand(cmds.SetGitUserCmd())
 	rootCmd.AddCommand(cmds.Speak())
 
