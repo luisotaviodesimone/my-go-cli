@@ -12,6 +12,7 @@ func main() {
 	rootCmd.AddCommand(cmds.GetCpfCmd())
 	rootCmd.AddCommand(cmds.SetGitUserCmd())
 	rootCmd.AddCommand(cmds.Speak())
+	rootCmd.AddCommand((cmds.ApprovePrCmd()))
 
 	rootCmd.Execute()
 }
