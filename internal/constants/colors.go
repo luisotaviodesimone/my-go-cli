@@ -1,4 +1,4 @@
-package contants
+package constants
 
 const (
 	Reset  = "\033[0m"
