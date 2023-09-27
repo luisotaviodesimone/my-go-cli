@@ -14,6 +14,7 @@ func main() {
 	rootCmd.AddCommand(cmds.Speak())
 	rootCmd.AddCommand((cmds.ApprovePrCmd()))
 	rootCmd.AddCommand((cmds.ClearNodeModulesCmd()))
+	rootCmd.AddCommand((cmds.Decode()))
 
 	rootCmd.Execute()
 }
