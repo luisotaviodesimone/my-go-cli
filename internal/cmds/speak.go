@@ -11,12 +11,13 @@ import (
 )
 
 func speak(text string, voice string) {
-	speech := htgotts.Speech{Folder: "audio", Language: voice, Handler: &handlers.Native{}}
-	speech.Speak(text)
-
 	currentDir := utils.GetCurrentExecutableDirPath()
 
 	dirPath := fmt.Sprintf("%s/%s", currentDir, "audio")
+
+	speech := htgotts.Speech{Folder: dirPath, Language: voice, Handler: &handlers.Native{}}
+	speech.Speak(text)
+
 	audioDir, _ := os.ReadDir(dirPath)
 
 	for _, element := range audioDir {
