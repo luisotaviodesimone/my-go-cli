@@ -65,6 +65,7 @@ func setGitUser(session string) {
 	Setting git user for %s%s%s context:
 		name: %s%s%s
 		email: %s%s%s
+
 	`, colors.Purple, session, colors.Reset,
 		colors.Green, sessionsUsers[session].User.Name, colors.Reset,
 		colors.Green, sessionsUsers[session].User.Email, colors.Reset)
