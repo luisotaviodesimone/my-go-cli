@@ -25,3 +25,5 @@ file/path/to/main speak "my go cli" -v en
 
 - Commands
   - Install node lts with ease
+  - Kube
+    - Concatenate kubernetes resources files
