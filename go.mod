@@ -1,15 +1,17 @@
 module github.com/luisotaviodesimone/my-go-cli
 
-go 1.20
+go 1.18
 
 require (
 	github.com/atotto/clipboard v0.1.4
 	github.com/cli/go-gh/v2 v2.0.1
 	github.com/hegedustibor/htgo-tts v0.0.0-20230402053941-cd8d1a158135
+	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.7.0
 )
 
 require (
+	github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e // indirect
 	github.com/cli/safeexec v1.0.1 // indirect
 	github.com/ebitengine/purego v0.3.2 // indirect
 	github.com/hajimehoshi/go-mp3 v0.3.4 // indirect
