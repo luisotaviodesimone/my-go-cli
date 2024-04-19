@@ -23,12 +23,10 @@ type Session struct {
 	User User `json:"user"`
 }
 
-func openAndParseSensibleInfoJson() map[string]Session {
+func openAndParseSensibleInfoJson(sensibleInfoFilePath string) map[string]Session {
 	var sessionUsers map[string]Session
 
-	currentDir := utils.GetCurrentExecutableDirPath()
-
-	sensibleInfo, err := os.Open(fmt.Sprintf("%s/sensible-info.json", currentDir))
+	sensibleInfo, err := os.Open(sensibleInfoFilePath)
 
 	if err != nil {
 		fmt.Println("Error opening sensible-info.json file")
@@ -44,8 +42,8 @@ func openAndParseSensibleInfoJson() map[string]Session {
 	return sessionUsers
 }
 
-func setGitUser(session string) {
-	sessionsUsers := openAndParseSensibleInfoJson()
+func setGitUser(session string, sensibleFilePath string) {
+	sessionsUsers := openAndParseSensibleInfoJson(sensibleFilePath)
 
 	ctx := context.Background()
 
@@ -87,11 +85,16 @@ func SetGitUserCmd() *cobra.Command {
 				return
 			}
 
-			setGitUser(args[0])
+			fileCredentials := cmd.Flag("file-credentials").Value.String()
+
+			setGitUser(args[0], fileCredentials)
 		},
 	}
 
+	currentDir := utils.GetCurrentExecutableDirPath()
+
 	cmd.PersistentFlags().StringP("auth-method", "a", "https", "Authentication method to be used (ssh or https)")
+	cmd.PersistentFlags().StringP("file-credentials", "f", fmt.Sprintf("%s/sensible-info.json", currentDir), "Path to the sensible info json file")
 
 	return cmd
 }
