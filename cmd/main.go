@@ -19,6 +19,7 @@ func main() {
 	rootCmd.AddCommand(cmds.ClearNodeModulesCmd())
 	rootCmd.AddCommand(cmds.Decode())
 	rootCmd.AddCommand(cmds.Kube())
+	rootCmd.AddCommand(cmds.Git())
 
 	rootCmd.Execute()
 }
