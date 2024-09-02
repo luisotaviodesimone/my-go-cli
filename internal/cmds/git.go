@@ -7,7 +7,7 @@ import (
 
 func Git() *cobra.Command {
 	command := &cobra.Command{
-		Use:   "git [command]",
+		Use:   "go-git [command]",
 		Short: "Uso do git através da minha cli",
 	}
 	command.AddCommand(lodsgit.CleanStaleBranches())

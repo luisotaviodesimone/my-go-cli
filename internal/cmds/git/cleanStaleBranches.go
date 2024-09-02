@@ -2,21 +2,39 @@ package lodsgit
 
 import (
 	"fmt"
-	"log"
-	"strings"
+	"os"
 
-	"github.com/go-git/go-billy/v5/osfs"
-	"github.com/go-git/go-git/plumbing/cache"
-	"github.com/go-git/go-git/storage/filesystem"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
-	"github.com/go-git/go-git/v5/plumbing/object"
+	"github.com/luisotaviodesimone/my-go-cli/internal/constants"
 
-	. "github.com/go-git/go-git/v5/_examples"
-	// colors "github.com/luisotaviodesimone/my-go-cli/internal/constants"
-	// "github.com/luisotaviodesimone/my-go-cli/internal/utils"
 	"github.com/spf13/cobra"
 )
+
+func checkIfError(err error) {
+
+	if err == nil {
+		return
+	}
+
+	fmt.Printf("error: %s", err)
+	os.Exit(1)
+}
+
+func logInfo(messages ...string) {
+	message := ""
+	for _, m := range messages {
+		message += m
+	}
+	fmt.Printf("%s%s%s\n", constants.Blue, message, constants.Reset)
+}
+func logFail(messages ...string) {
+	message := ""
+	for _, m := range messages {
+		message += m
+	}
+	fmt.Printf("%s%s%s\n", constants.Red, message, constants.Reset)
+}
 
 func CleanStaleBranches() *cobra.Command {
 	cmd := &cobra.Command{
@@ -24,35 +42,48 @@ func CleanStaleBranches() *cobra.Command {
 		Short: "limpar branches locais que não estão remotas",
 		Args:  cobra.ExactArgs(0),
 		Run: func(cmd *cobra.Command, args []string) {
-			Info("git log --oneline -1")
 
 			path := "./"
-			fs := osfs.New(path)
+			repo, err := git.PlainOpen(path)
+			checkIfError(err)
+			// info("git rev-list HEAD --count")
 
-			s := filesystem.NewStorageWithOptions(fs, cache.NewObjectLRUDefault(), filesystem.Options{KeepDescriptors: true})
-			r, err := git.Open(s, fs)
-			CheckIfError(err)
-			defer s.Close()
+			ref, err := repo.Branches()
+			checkIfError(err)
 
-			revision := "--is-inside-work-tree"
-			h, err := r.ResolveRevision(plumbing.Revision(revision))
-			CheckIfError(err)
+			staleBranches := make(map[plumbing.ReferenceName]plumbing.Hash)
+			err = ref.ForEach(func(r *plumbing.Reference) error {
+				fmt.Printf("local: %v\n", r.Name().Short())
 
-			commit, err := r.CommitObject(*h)
+				config, err := repo.Config()
+				if err != nil {
+					return err
+				}
 
-			commitIter, err := r.Log(&git.LogOptions{From: commit.Hash})
-			CheckIfError(err)
+				branchConfig, ok := config.Branches[r.Name().Short()]
+				if !ok || branchConfig.Remote == "" || branchConfig.Merge == "" {
+					logInfo("  No upstream configured")
+					return nil
+				}
 
-			err = commitIter.ForEach(func(c *object.Commit) error {
-				hash := c.Hash.String()
-				line := strings.Split(c.Message, "\n")
-				fmt.Println(hash[:7], line[0])
+				upstreamRefName := plumbing.NewRemoteReferenceName(branchConfig.Remote, branchConfig.Merge.Short())
+				_, err = repo.Reference(upstreamRefName, true)
+				if err != nil {
+					staleBranches[r.Name()] = r.Hash()
+					logFail("  Failed to find upstream reference: ", err.Error())
+					return nil
+				}
+
+				logInfo("Stale branches: ")
+				for name, hash := range staleBranches {
+					message := fmt.Sprintf("  %s: %s", name, hash)
+					logFail(message)
+				}
 
 				return nil
 			})
-			CheckIfError(err)
 
-			log.Println("git branch-clean called")
+			checkIfError(err)
 		},
 	}
 
