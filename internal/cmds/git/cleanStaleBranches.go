@@ -46,12 +46,12 @@ func CleanStaleBranches() *cobra.Command {
 			path := "./"
 			repo, err := git.PlainOpen(path)
 			checkIfError(err)
-			// info("git rev-list HEAD --count")
 
 			ref, err := repo.Branches()
 			checkIfError(err)
 
 			staleBranches := make(map[plumbing.ReferenceName]plumbing.Hash)
+			logInfo("Stale branches: ")
 			err = ref.ForEach(func(r *plumbing.Reference) error {
 				fmt.Printf("local: %v\n", r.Name().Short())
 
@@ -74,7 +74,6 @@ func CleanStaleBranches() *cobra.Command {
 					return nil
 				}
 
-				logInfo("Stale branches: ")
 				for name, hash := range staleBranches {
 					message := fmt.Sprintf("  %s: %s", name, hash)
 					logFail(message)
