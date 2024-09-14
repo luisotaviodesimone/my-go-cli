@@ -1,9 +1,11 @@
 package lodsgit
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
@@ -94,12 +96,37 @@ func CleanStaleBranches() *cobra.Command {
 				return nil
 			})
 
+			checkIfError(err)
+
 			for name := range staleBranches {
 				message := fmt.Sprintf("  %s", name)
 				logInfo(message)
 			}
 
-			checkIfError(err)
+			reader := bufio.NewReader(os.Stdin)
+			for {
+				fmt.Print("Remove references (Y/n): ")
+				text, error := reader.ReadString('\n')
+
+				if error != nil {
+					log.Fatalf("error reading from given string: %s", error)
+				}
+				lowerText := strings.ToLower(text)
+
+				if lowerText == "y\n" || lowerText == "yes\n" || lowerText == "\n" {
+
+					for name := range staleBranches {
+						repo.Storer.RemoveReference(name)
+            fmt.Println("Removed", constants.Cyan, name, constants.Reset)
+					}
+
+					break
+				} else if lowerText == "n\n" || lowerText == "no\n" {
+					fmt.Println("exiting...")
+					break
+				}
+				fmt.Println(text)
+			}
 		},
 	}
 
