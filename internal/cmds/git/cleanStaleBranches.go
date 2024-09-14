@@ -117,7 +117,7 @@ func CleanStaleBranches() *cobra.Command {
 
 					for name := range staleBranches {
 						repo.Storer.RemoveReference(name)
-            fmt.Println("Removed", constants.Cyan, name, constants.Reset)
+						fmt.Println("Removed", constants.Cyan, name, constants.Reset)
 					}
 
 					break
@@ -125,7 +125,6 @@ func CleanStaleBranches() *cobra.Command {
 					fmt.Println("exiting...")
 					break
 				}
-				fmt.Println(text)
 			}
 		},
 	}
