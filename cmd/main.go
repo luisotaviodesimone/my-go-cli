@@ -20,6 +20,7 @@ func main() {
 	rootCmd.AddCommand(cmds.Decode())
 	rootCmd.AddCommand(cmds.Kube())
 	rootCmd.AddCommand(cmds.Git())
+  rootCmd.AddCommand(cmds.Typerace())
 
 	rootCmd.Execute()
 }

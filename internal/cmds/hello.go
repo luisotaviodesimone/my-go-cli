@@ -3,7 +3,7 @@ package cmds
 import (
 	"fmt"
 
-	colors "github.com/luisotaviodesimone/my-go-cli/internal/constants"
+	"github.com/luisotaviodesimone/my-go-cli/internal/colors"
 	"github.com/spf13/cobra"
 )
 

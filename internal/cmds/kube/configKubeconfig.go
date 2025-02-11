@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	colors "github.com/luisotaviodesimone/my-go-cli/internal/constants"
+	"github.com/luisotaviodesimone/my-go-cli/internal/colors"
 	"github.com/luisotaviodesimone/my-go-cli/internal/utils"
 	"github.com/spf13/cobra"
 )

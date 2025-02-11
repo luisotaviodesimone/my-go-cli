@@ -11,7 +11,7 @@ import (
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/transport/ssh"
 
-	"github.com/luisotaviodesimone/my-go-cli/internal/constants"
+	"github.com/luisotaviodesimone/my-go-cli/internal/colors"
 
 	"github.com/spf13/cobra"
 )
@@ -31,14 +31,14 @@ func logInfo(messages ...string) {
 	for _, m := range messages {
 		message += m
 	}
-	fmt.Printf("%s%s%s\n", constants.Blue, message, constants.Reset)
+	fmt.Printf("%s%s%s\n", colors.Blue, message, colors.Reset)
 }
 func logFail(messages ...string) {
 	message := ""
 	for _, m := range messages {
 		message += m
 	}
-	fmt.Printf("%s%s%s\n", constants.Red, message, constants.Reset)
+	fmt.Printf("%s%s%s\n", colors.Red, message, colors.Reset)
 }
 
 func CleanStaleBranches() *cobra.Command {
@@ -117,7 +117,7 @@ func CleanStaleBranches() *cobra.Command {
 
 					for name := range staleBranches {
 						repo.Storer.RemoveReference(name)
-						fmt.Println("Removed", constants.Cyan, name, constants.Reset)
+						fmt.Println("Removed", colors.Cyan, name, colors.Reset)
 					}
 
 					break
