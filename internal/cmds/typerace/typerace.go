@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 
 	"github.com/luisotaviodesimone/my-go-cli/internal/colors"
@@ -35,6 +36,7 @@ func StartTyperace(objective string) {
 
 	bufio.NewReader(os.Stdin).ReadBytes('\n')
 
+	fmt.Println(colors.Cyan, "\rStart typing: ", colors.Reset)
 	go promptUser(inputChan, timeChan)
 	go getSignalInterruption(signalChan, timeChan)
 	go startTimer(timeChan, i)
@@ -85,12 +87,22 @@ func StartTyperace(objective string) {
 			}
 		}
 
-		userInput := fmt.Sprint(string(whole))
+		var userInput string
+		if string(buf[0]) != objective[len(whole)-1:len(whole)] {
+			userInput = fmt.Sprint(colors.Red, string(whole), colors.Reset)
+		} else {
+			userInput = fmt.Sprint(colors.Green, string(whole), colors.Reset)
+		}
+
 		inputChan <- userInput
 
 		if string(whole) == objective {
-			fmt.Println("\nNice!")
 			fmt.Println("Time spent:", <-timeChan, "\bsecs")
+			timeFloat, _ := strconv.ParseFloat(<-timeChan, 64)
+			wordsCount := float64(len(strings.Fields(string(whole))))
+			fmt.Println("WPM:", strconv.FormatFloat(wordsCount/(timeFloat/60), 'f', 2, 64), "\bwpm")
+			charsCount := float64(len(string(whole)))
+			fmt.Println("CPS:", strconv.FormatFloat(charsCount/(timeFloat/60), 'f', 2, 64), "\bcpm")
 			os.Exit(0)
 		}
 	}

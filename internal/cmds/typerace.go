@@ -11,9 +11,8 @@ func Typerace() *cobra.Command {
 		Short: "Cópia fajuta do jogo typeracer",
 		Args:  cobra.ExactArgs(0),
 		Run: func(cmd *cobra.Command, args []string) {
-      // TODO: Implement a way to get the text from a SQLITE database
-      objective := "Isso aqui não tá muito bom hihihi"
-			typerace.StartTyperace(objective)
+      objective := typerace.GetQuote()
+			typerace.StartTyperace(objective.Text)
 		},
 	}
 

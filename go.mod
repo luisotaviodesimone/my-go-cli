@@ -8,6 +8,7 @@ require (
 	github.com/go-git/go-git/v5 v5.12.0
 	github.com/hegedustibor/htgo-tts v0.0.0-20230402053941-cd8d1a158135
 	github.com/manifoldco/promptui v0.9.0
+	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/spf13/cobra v1.7.0
 )
 

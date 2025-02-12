@@ -9,6 +9,15 @@ import (
 	"github.com/manifoldco/promptui"
 )
 
+func GetEnvOrDefault(key, defaultValue string) string {
+	value, exists := os.LookupEnv(key)
+	if !exists {
+		return defaultValue
+	}
+
+	return value
+}
+
 func GetCurrentExecutableDirPath() string {
 	ex, err := os.Executable()
 	if err != nil {
