@@ -1,12 +1,15 @@
 module github.com/luisotaviodesimone/my-go-cli
 
-go 1.18
+go 1.22.2
+
+toolchain go1.23.4
 
 require (
 	github.com/atotto/clipboard v0.1.4
 	github.com/cli/go-gh/v2 v2.0.1
 	github.com/go-git/go-git/v5 v5.12.0
 	github.com/hegedustibor/htgo-tts v0.0.0-20230402053941-cd8d1a158135
+	github.com/luisotaviodesimone/terminal-ui v0.0.0-20240717222349-de5ff6cdc861
 	github.com/manifoldco/promptui v0.9.0
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/spf13/cobra v1.7.0
